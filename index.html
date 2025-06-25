@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+    
+    <div id="mynetwork" style="width: 100%; height: 90vh;"></div>
+    <input type="text" id="searchInput" placeholder="Search Professor..." oninput="performSearch()">
+    <div>
+        <p>Minimalist webpage for keeping track of the TCS-ML-Stats Academic network. Made using <a href="https://visjs.org/">VisJS</a>.</p>
+    </div>
+    <style type="text/css">
+        #mynetwork {
+            border: 1px solid lightgray;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+        html, body {
+            height: 100%;
+        }
+        #mynetwork {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+     
+    <script type="text/javascript">
+
+        var dotstring = `digraph {
+    "Manuel Blum" -> "Shafi Goldwasser";
+    "Manuel Blum" -> "Michael Sipser";
+    "Michael Sipser" -> "Lance Fortnow";
+    "Manuel Blum" -> "Umesh Vazirani";
+    "Umesh Vazirani" -> "Scott Aaronson";
+    "Umesh Vazirani" -> "Andris Ambainis";
+    "Andris Ambainis" -> "Alexandrs Belovs";
+    "Umesh Vazirani" -> "Sanjeev Arora";
+    "Sanjeev Arora" -> "Subhash Khot";
+    "Sanjeev Arora" -> "Elad Hazan";
+    "Umesh Vazirani" -> "Madhu Sudhan";
+    "Madhu Sudhan" -> "Ryan O'Donnel";
+    "Ryan O'Donnel" -> "Eric Blais";
+    "Madhu Sudhan" -> "Venkatesan Guruswami";
+    "Madhu Sudhan" -> "Mitali Bafna";
+    "Madhu Sudhan" -> "Prahlad Harsha";
+    "Venkatesan Guruswami" -> "Prasad Raghavendra";
+    "Venkatesan Guruswami" -> "Vijay Bhattiprolu";
+    "Umesh Vazirani" -> "David Zuckerman";
+    "Umesh Vazirani" -> "Ben Reichardt";
+    "Manuel Blum" -> "Vijay Vazirani";
+    "Manuel Blum" -> "Dana Angluin";
+    "Manuel Blum" -> "Gary Miller";
+    "Gary Miller" -> "Tom Leighton";
+    "Tom Leighton" -> "Peter Shor";
+    "Tom Leighton" -> "Ankur Moitra";
+    "Ankur Moitra" -> "Sitan Chen";
+    "Shafi Goldwasser" -> "Salil Vadhan";
+    "Manuel Blum" -> "Eric Bach";
+    "Eric Bach" -> "Victor Shoup";
+    "Ronald Rivest" -> "Avrim Blum";
+    "Avrim Blum" -> "Shuchi Chawla";
+    "Avrim Blum" -> "Aaron Roth";
+    "Avrim Blum" -> "Nika Haghtalab";
+    "Ariel Procaccia" -> "Nika Haghtalab";
+    "Greg Valiant" -> "Vatsal Sharan";
+    "Ankur Moitra" -> "Vatsal Sharan" [style=dotted];
+    "Greg Valiant" -> "Shivam Garg";
+    "Robert W. Floyd" -> "Ronald Rivest";
+    "Ronald Rivest" -- "Shafi Goldwasser";
+    "Robert W. Floyd" -> "Donald Knuth";
+    "Donald Knuth" -> "Robert Sedgewick";
+    "Ronald Rivest" -- "Adi Shamir";
+    "Manuel Blum" -> "Leonard Adleman";
+    "Leonard Adleman" -- "Ronald Rivest";
+    "Leonard Adleman" -- "Adi Shamir";
+    "Ronald Rivest" -> "Robert Schapire";
+    "Robert Tibshirani" -> "Larry Wasserman";
+    "Scott Aaronson" -> "Alexandrs Belovs" [style=dotted];
+    "Sanjoy Dasgupta" -> "Daniel Hsu";
+    "Daniel Hsu" -> "Clayton Sanford";
+    "Daniel Hsu" -> "Kiran Vodrahalli";
+    "Ankur Moitra" -- "Daniel Hsu";
+    "Matus Telgarsky" -- "Clayton Sanford";
+    "Matus Telgarsky" -- "Daniel Hsu";
+    "Sanjoy Dasgupta" -> "Matus Telgarsky";
+    "Umesh Vazirani" -> "Sanjoy Dasgupta";
+    "Sanjoy Dasgupta" -- "Christos Papadimitriou";
+    "Christos Papadimitriou" -- "Umesh Vazirani";
+    "Srikanth Srinivasan" -- "Madhu Sudhan";
+    "Aarti Singh" -> "Aaditya Ramdas";
+    "Larry Wasserman" -> "Aaditya Ramdas";
+    "Aaditya Ramdas" -- "Marco Cuturi";
+    "Aaditya Ramdas" -- "Ryan Tibshirani";
+    "Aaditya Ramdas" -- "Arthur Gretton";
+}`;
+
+        var parsedData = vis.parseDOTNetwork(dotstring);
+
+        var container = document.getElementById("mynetwork");
+        var data = {
+          nodes: parsedData.nodes,
+          edges: parsedData.edges,
+        };
+        var options = {
+            nodes:{
+                shape: 'box',
+                font: {
+                    size: 20,
+                    color: '#000000',
+                    face: 'arial',
+                    background: 'none'
+                },
+            },
+        };
+        var network = new vis.Network(container, data, options);
+
+        
+        function searchNodeByLabel(searchText, network, nodes) {
+        const matchingNodeIds = [];
+        nodes.forEach(function(node) {
+            if (node.label && node.label.toLowerCase().includes(searchText.toLowerCase())) {
+                matchingNodeIds.push(node.id);
+            }
+        });
+
+        if (matchingNodeIds.length > 0) {
+            network.selectNodes(matchingNodeIds); // Select the matching nodes
+            network.focus(matchingNodeIds[0]); // Focus on the first matching node
+        } else {
+            network.unselectAll(); // Deselect all if no match
+        }
+    }
+    function performSearch() {
+        const searchText = document.getElementById('searchInput').value;
+        searchNodeByLabel(searchText, network, parsedData.nodes); // Pass your network and nodes DataSet
+    }
+
+      </script>
+</body>
+</html>
