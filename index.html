@@ -39,6 +39,7 @@
     "Michael Sipser" -> "Daniel Spielman";
     "Michael Sipser" -> "Lance Fortnow";
     "Manuel Blum" -> "Umesh Vazirani";
+    "Manuel Blum" -> "Ryan Williams";
     "Umesh Vazirani" -> "Scott Aaronson";
     "Umesh Vazirani" -> "Andris Ambainis";
     "Andris Ambainis" -> "Alexandrs Belovs";
@@ -76,6 +77,7 @@
     "Greg Valiant" -> "Vatsal Sharan";
     "Ankur Moitra" -> "Vatsal Sharan" [style=dotted];
     "Greg Valiant" -> "Shivam Garg";
+    "Christos Papadimitriou" -> "Greg Valiant";
     "Robert W. Floyd" -> "Ronald Rivest";
     // "Ronald Rivest" -- "Shafi Goldwasser";
     // "Robert W. Floyd" -- "Donald Knuth";
@@ -149,10 +151,14 @@
 "Richard M Karp" -> "Narendra Karmakar";
 "Richard M Karp" -> "Noam Nisan";
 "Richard M Karp" -> "Rajeev Motwani";
+"Ryan Williams" -> "Lijie Chen";
 "Umesh Vazirani" -> "Lijie Chen" [style=dotted];
 "Avishay Tal" -> "Lijie Chen" [style=dotted];
 "Ran Raz" -> "Avishay Tal";
 "Avi Wigderson" -> "Ran Raz";
+"Avi Wigderson" -> "Avishay Tal" [style=dotted];
+"Richard Lipton" -> "Avi Wigderson";
+"Richard Lipton" -> "Dan Boneh";
 }`;
 
         var parsedData = vis.parseDOTNetwork(dotstring);
