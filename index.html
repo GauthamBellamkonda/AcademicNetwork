@@ -181,11 +181,13 @@
             },
             physics:{
                 barnesHut:{
-                    avoidOverlap: 0.2,
-                },
-                stabilization:{
-                    enabled: true,
-                    iterations:100,
+                    theta: 0.5,
+                    gravitationalConstant: -2000,
+                    centralGravity: 0.3,
+                    springLength: 95,
+                    springConstant: 0.04,
+                    damping: 0.09,
+                    avoidOverlap: 0
                 },
             },
         };
