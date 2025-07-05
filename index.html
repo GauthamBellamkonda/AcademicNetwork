@@ -183,6 +183,10 @@
                 barnesHut:{
                     avoidOverlap: 0.2,
                 },
+                stabilization:{
+                    enabled: true,
+                    iterations:100,
+                },
             },
         };
         var network = new vis.Network(container, data, options);
