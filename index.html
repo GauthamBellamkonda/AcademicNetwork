@@ -179,6 +179,11 @@
                     background: 'none'
                 },
             },
+            physics:{
+                barnesHut:{
+                    avoidOverlap: 0.5,
+                }
+            },
         };
         var network = new vis.Network(container, data, options);
 
